@@ -17,7 +17,7 @@ const initializeFirebaseAdmin = () => {
     console.error('❌ Firebase Admin initialization error:', error.message);
   }
 };
-
+//com
 initializeFirebaseAdmin();
 
 export default admin;

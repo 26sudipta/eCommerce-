@@ -59,7 +59,7 @@ export const seedProducts = async (req, res) => {
 // @access  Public
 export const getProducts = async (req, res) => {
   try {
-    const { page = 1, limit = 12, category, search, featured, minPrice, maxPrice } = req.query;
+    const { page = 1, limit = 12, category, search, featured, minPrice, maxPrice, sort = '-createdAt' } = req.query;
 
     // Build query
     const query = {};
@@ -90,7 +90,7 @@ export const getProducts = async (req, res) => {
     const products = await Product.find(query)
       .limit(limit * 1)
       .skip((page - 1) * limit)
-      .sort({ createdAt: -1 });
+      .sort(sort);
 
     const count = await Product.countDocuments(query);
 

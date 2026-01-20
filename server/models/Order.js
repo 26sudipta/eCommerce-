@@ -91,7 +91,7 @@ const orderSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Generate unique order ID before saving
+// Generate unique order ID before savin
 orderSchema.pre('save', async function(next) {
   if (!this.orderId) {
     this.orderId = `ORD-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;

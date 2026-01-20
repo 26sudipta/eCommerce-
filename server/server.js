@@ -10,7 +10,7 @@ import orderRoutes from './routes/order.routes.js';
 import reviewRoutes from './routes/review.routes.js';
 import contactRoutes from './routes/contact.routes.js';
 
-// Load environment variables
+// Load environment variable
 dotenv.config();
 
 // Initialize express app

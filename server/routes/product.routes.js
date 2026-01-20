@@ -1,33 +1,33 @@
 import express from 'express';
+import {
+  seedProducts,
+  getProducts,
+  getProductById,
+  getCategories,
+  getProductsByCategory,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+  clearAllProducts
+} from '../controllers/product.controller.js';
+import { verifyToken } from '../middleware/auth.middleware.js';
+import { isAdmin } from '../middleware/admin.middleware.js';
+
 const router = express.Router();
 
-// Placeholder routes - will be implemented with DummyJSON integration
-router.get('/', (req, res) => {
-  res.json({ message: 'Get all products - to be implemented' });
-});
+// Public routes
+router.get('/', getProducts);
+router.get('/categories/all', getCategories);
+router.get('/category/:category', getProductsByCategory);
+router.get('/:id', getProductById);
 
-router.get('/:id', (req, res) => {
-  res.json({ message: 'Get product by ID - to be implemented' });
-});
+// Seed route (make admin-only in production)
+router.post('/seed', seedProducts);
+router.delete('/clear/all', clearAllProducts);
 
-router.get('/category/:category', (req, res) => {
-  res.json({ message: 'Get products by category - to be implemented' });
-});
-
-router.post('/seed', (req, res) => {
-  res.json({ message: 'Seed products from DummyJSON - to be implemented' });
-});
-
-router.post('/', (req, res) => {
-  res.json({ message: 'Create product (Admin) - to be implemented' });
-});
-
-router.put('/:id', (req, res) => {
-  res.json({ message: 'Update product (Admin) - to be implemented' });
-});
-
-router.delete('/:id', (req, res) => {
-  res.json({ message: 'Delete product (Admin) - to be implemented' });
-});
+// Admin routes
+router.post('/', verifyToken, isAdmin, createProduct);
+router.put('/:id', verifyToken, isAdmin, updateProduct);
+router.delete('/:id', verifyToken, isAdmin, deleteProduct);
 
 export default router;

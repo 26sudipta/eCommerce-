@@ -1,33 +1,30 @@
 import express from 'express';
+import {
+  createOrder,
+  getAllOrders,
+  getUserOrders,
+  getOrderById,
+  updateOrder,
+  cancelOrder,
+  updateOrderStatus
+} from '../controllers/order.controller.js';
+import { verifyToken } from '../middleware/auth.middleware.js';
+import { isAdmin } from '../middleware/admin.middleware.js';
+
 const router = express.Router();
 
-// Placeholder routes
-router.get('/', (req, res) => {
-  res.json({ message: 'Get all orders - to be implemented' });
-});
+// All order routes require authentication
+router.use(verifyToken);
 
-router.get('/user/:userId', (req, res) => {
-  res.json({ message: 'Get user orders - to be implemented' });
-});
+// User routes
+router.post('/', createOrder);
+router.get('/user/:userId', getUserOrders);
+router.get('/:id', getOrderById);
+router.put('/:id', updateOrder);
+router.delete('/:id', cancelOrder);
 
-router.get('/:id', (req, res) => {
-  res.json({ message: 'Get order by ID - to be implemented' });
-});
-
-router.post('/', (req, res) => {
-  res.json({ message: 'Create order - to be implemented' });
-});
-
-router.put('/:id', (req, res) => {
-  res.json({ message: 'Update order - to be implemented' });
-});
-
-router.delete('/:id', (req, res) => {
-  res.json({ message: 'Cancel order - to be implemented' });
-});
-
-router.patch('/:id/status', (req, res) => {
-  res.json({ message: 'Update order status (Admin) - to be implemented' });
-});
+// Admin routes
+router.get('/', isAdmin, getAllOrders);
+router.patch('/:id/status', isAdmin, updateOrderStatus);
 
 export default router;
